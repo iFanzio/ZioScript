@@ -15,14 +15,14 @@
  */
 
 const SITE_CONFIG = {
-  brandName: "YOUR_BRAND",
-  pageTitle: "YOUR_BRAND — Script Hub Directory",
-  heroBadge: "[ TEMPLATE v1.0 • READY FOR CONTENT ]",
-  heroHeadline: "[ Your Script Hub Headline ]",
-  heroSubheadline: "[ Add your custom tagline or directory description here ]",
-  communityLabel: "[ Community Link ]",
-  communityUrl: "https://discord.gg/your-invite",
-  copyrightText: "© 2026 YOUR_BRAND • All rights reserved.",
+  brandName: "ZioScript",
+  pageTitle: "ZioScript",
+  heroBadge: "Latest scripts",
+  heroHeadline: "ZIOSCRIPT",
+  heroSubheadline: "Premium script showcases, guides, tutorials — all for free.",
+  communityLabel: "Discord",
+  communityUrl: "https://discord.gg/luminhub",
+  copyrightText: "© 2026 ZioScripts • All rights reserved.",
 
   // Slide-out 3-Line Menu Navigation Items
   navItems: [
