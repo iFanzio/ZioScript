@@ -1,0 +1,214 @@
+/* ==========================================================================
+   OBSIDIAN GLASSMORPHIC THEME & GPU-ACCELERATED AURORA BACKGROUND
+   ========================================================================== */
+
+html {
+  background-color: #08080c;
+  color-scheme: dark;
+}
+
+body {
+  background-color: transparent !important;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #08080c;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.45);
+}
+
+/* ==========================================================================
+   AURORA GLOW & CYBER-GRID ANIMATED BACKGROUND
+   ========================================================================== */
+.horizon-spotlight {
+  position: absolute;
+  top: -18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, 130vw);
+  height: 520px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(99, 102, 241, 0.24) 0%,
+    rgba(139, 92, 246, 0.12) 40%,
+    rgba(8, 8, 12, 0) 72%
+  );
+  filter: blur(42px);
+  animation: pulseHorizon 10s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(95px);
+  opacity: 0.42;
+  will-change: transform;
+}
+
+.aurora-orb-1 {
+  top: 6%;
+  left: 10%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.55), transparent 70%);
+  animation: driftOrb1 18s ease-in-out infinite alternate;
+}
+
+.aurora-orb-2 {
+  top: 22%;
+  right: 8%;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.48), transparent 70%);
+  animation: driftOrb2 22s ease-in-out infinite alternate;
+}
+
+.aurora-orb-3 {
+  bottom: 8%;
+  left: 28%;
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.32), transparent 70%);
+  animation: driftOrb3 20s ease-in-out infinite alternate;
+}
+
+.aurora-orb-4 {
+  bottom: 18%;
+  right: 22%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.36), transparent 70%);
+  animation: driftOrb1 25s ease-in-out infinite alternate-reverse;
+}
+
+.cyber-grid-overlay {
+  position: absolute;
+  inset: -56px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 25%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 25%, transparent 100%);
+  animation: panGrid 24s linear infinite;
+  will-change: transform;
+}
+
+.edge-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, transparent 45%, rgba(8, 8, 12, 0.85) 100%);
+}
+
+/* Rising Ambient Bokeh Specks */
+.bokeh-speck {
+  position: absolute;
+  bottom: -16px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(199, 210, 254, 0.9), rgba(99, 102, 241, 0.15));
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.55);
+  animation: floatSpeckUp linear infinite;
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+@keyframes pulseHorizon {
+  0% {
+    opacity: 0.78;
+    transform: translateX(-50%) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.06);
+  }
+}
+
+@keyframes driftOrb1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(65px, 45px, 0) scale(1.12);
+  }
+}
+
+@keyframes driftOrb2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-70px, 55px, 0) scale(0.94);
+  }
+}
+
+@keyframes driftOrb3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  100% {
+    transform: translate3d(50px, -60px, 0) scale(1.08);
+  }
+}
+
+@keyframes panGrid {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(56px, 56px, 0);
+  }
+}
+
+@keyframes floatSpeckUp {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--speck-opacity, 0.45);
+  }
+  85% {
+    opacity: var(--speck-opacity, 0.45);
+  }
+  100% {
+    transform: translate3d(var(--speck-drift, 20px), -108vh, 0) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-modalIn {
+  animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Blueprint Dropzone Pattern */
+.blueprint-grid {
+  background-image:
+    linear-gradient(to right, rgba(129, 140, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(129, 140, 248, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}

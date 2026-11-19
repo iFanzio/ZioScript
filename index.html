@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOUR_BRAND — Script Hub Directory</title>
+  <meta name="description" content="Obsidian Glassmorphic Script Hub Directory Template" />
+  <link rel="icon" type="image/svg+xml" href="./assets/logo.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: '#08080c',
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Theme, Aurora Background & Glassmorphism Styles -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body class="text-slate-100 font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200 min-h-screen flex flex-col">
+
+  <!-- =====================================================================
+       AMBIENT ANIMATED BACKGROUND (Aurora Glow + Cyber-Grid + Bokeh Specks)
+       ===================================================================== -->
+  <div id="ambientBgLayer" class="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <!-- Top-center Horizon Spotlight -->
+    <div class="horizon-spotlight"></div>
+
+    <!-- Drifting Aurora Orbs -->
+    <div class="aurora-orb aurora-orb-1"></div>
+    <div class="aurora-orb aurora-orb-2"></div>
+    <div class="aurora-orb aurora-orb-3"></div>
+    <div class="aurora-orb aurora-orb-4"></div>
+
+    <!-- Subtle Radial-Masked Cyber Grid -->
+    <div class="cyber-grid-overlay"></div>
+
+    <!-- Rising Ambient Bokeh Specks (populated by js/app.js) -->
+    <div id="ambientSpecksContainer" class="absolute inset-0"></div>
+
+    <!-- Edge Vignette -->
+    <div class="edge-vignette"></div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE-OUT LEFT NAVIGATION DRAWER (3-Line Menu)
+       ===================================================================== -->
+  <div id="drawerBackdrop" class="fixed inset-0 z-40 bg-black/65 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <aside id="sideDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 max-w-[82vw] bg-[#0b0b12]/95 backdrop-blur-2xl border-r border-white/10 shadow-[20px_0_60px_rgba(0,0,0,0.85)] transform -translate-x-full transition-transform duration-300 ease-out flex flex-col">
+    <!-- Drawer Header -->
+    <div class="h-16 px-5 border-b border-white/[0.08] flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <img src="./assets/logo.svg" alt="Brand Logo" class="w-7 h-7 rounded-lg object-cover border border-indigo-400/30" />
+        <span id="drawerBrandName" class="font-bold tracking-tight text-sm text-white">YOUR_BRAND</span>
+      </div>
+      <button id="drawerCloseBtn" type="button" aria-label="Close navigation menu" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent hover:border-white/10 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Items (Home, Scripts, Games, Guides, About) -->
+    <nav id="drawerNavList" class="flex-1 px-3.5 py-5 space-y-1.5 overflow-y-auto" aria-label="Primary Navigation">
+      <!-- Populated dynamically by js/app.js from SITE_CONFIG.navItems -->
+    </nav>
+
+    <!-- Drawer Footer -->
+    <div class="p-4 border-t border-white/[0.08]">
+      <div class="px-3 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.07] flex items-center justify-between text-xs text-slate-400">
+        <span class="font-mono">[ STATUS ]</span>
+        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Online
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =====================================================================
+       STICKY TOP HEADER BAR
+       ===================================================================== -->
+  <header class="sticky top-0 z-30 border-b border-white/[0.08] bg-[#08080c]/75 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- Far Left: 3-Line Menu Toggle + Brand -->
+      <div class="flex items-center gap-3.5">
+        <button id="menuToggleBtn" type="button" aria-label="Open navigation menu" class="p-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/10 hover:border-indigo-400/40 text-slate-200 hover:text-white transition-all duration-200 shadow-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <a href="./index.html" class="flex items-center gap-2.5 group">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-400/30 flex items-center justify-center overflow-hidden group-hover:border-indigo-400/60 transition-colors">
+            <img src="./assets/logo.svg" alt="Logo" class="w-full h-full object-cover" />
+          </div>
+          <span id="headerBrandName" class="font-extrabold tracking-tight text-base sm:text-lg text-white group-hover:text-indigo-200 transition-colors">YOUR_BRAND</span>
+        </a>
+      </div>
+
+      <!-- Far Right: Community CTA Button -->
+      <div class="flex items-center gap-2.5">
+        <a id="communityLinkBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-indigo-100 bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-400/30 hover:border-indigo-400/60 shadow-[0_0_20px_rgba(99,102,241,0.18)] transition-all duration-200">
+          <svg class="w-4 h-4 text-indigo-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z" />
+          </svg>
+          <span id="communityLinkLabel">[ Community Link ]</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       MAIN CONTENT AREA
+       ===================================================================== -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+
+    <!-- Centered Hero Section -->
+    <section class="text-center max-w-3xl mx-auto mb-11">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/25 text-indigo-300 font-mono text-xs tracking-wide mb-5 shadow-[0_0_25px_rgba(99,102,241,0.15)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+        <span id="heroBadgeText">[ TEMPLATE v1.0 • READY FOR CONTENT ]</span>
+      </div>
+
+      <h1 id="heroHeadline" class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-[1.15]">
+        [ Your Script Hub Headline ]
+      </h1>
+
+      <p id="heroSubheadline" class="text-sm sm:text-base text-slate-400 max-w-xl mx-auto mb-8 leading-relaxed">
+        [ Add your custom tagline or directory description here ]
+      </p>
+
+      <!-- Command Search Bar -->
+      <div class="relative max-w-2xl mx-auto mb-5 group">
+        <div class="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-indigo-500/30 via-violet-500/30 to-cyan-500/30 opacity-0 group-focus-within:opacity-100 blur transition-opacity duration-300"></div>
+        <div class="relative flex items-center bg-[#11111a]/80 backdrop-blur-xl border border-white/10 group-focus-within:border-indigo-400/50 rounded-2xl px-4 py-3.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] transition-all">
+          <svg class="w-5 h-5 text-slate-400 group-focus-within:text-indigo-400 transition-colors shrink-0 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search placeholder slots, tags, or keywords..."
+            autocomplete="off"
+            class="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none"
+          />
+          <button id="clearSearchBtn" type="button" aria-label="Clear search" class="hidden p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors mr-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <kbd class="hidden sm:inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-mono text-slate-400 bg-white/[0.05] border border-white/10 rounded-md">/</kbd>
+        </div>
+      </div>
+
+      <!-- Filter Pills -->
+      <div id="filterPillsContainer" class="flex flex-wrap items-center justify-center gap-2">
+        <!-- Populated dynamically from SITE_CONFIG.filterTags -->
+      </div>
+    </section>
+
+    <!-- Grid Controls Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-white/[0.08]">
+      <div class="flex items-center gap-3">
+        <p id="resultsCounter" class="text-xs sm:text-sm text-slate-400 font-medium">
+          Showing <span class="text-white font-semibold">6</span> of <span class="text-white font-semibold">6</span> Placeholder Slots
+        </p>
+        <button id="savedOnlyToggle" type="button" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 transition-all">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+          <span>Saved (<span id="savedCountBadge">0</span>)</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 self-start sm:self-auto">
+        <label for="sortSelect" class="text-xs text-slate-400">Sort:</label>
+        <select id="sortSelect" class="bg-[#11111a]/85 backdrop-blur-xl text-xs sm:text-sm text-slate-200 border border-white/10 hover:border-white/20 focus:border-indigo-400/50 rounded-xl px-3 py-1.5 focus:outline-none transition-colors cursor-pointer">
+          <option value="default">Default Order</option>
+          <option value="az">Slot A–Z</option>
+          <option value="za">Slot Z–A</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <section id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-label="Script Directory Grid">
+      <!-- Populated dynamically by js/app.js -->
+    </section>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-20 px-4 rounded-2xl bg-[#11111a]/60 backdrop-blur-xl border border-white/10">
+      <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-400/25 flex items-center justify-center mx-auto mb-4 text-indigo-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+      <h3 class="text-base font-bold text-white mb-1">No matching slots found</h3>
+      <p class="text-sm text-slate-400 mb-5">Try clearing your search term or resetting active filter tags.</p>
+      <button id="resetFiltersBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-500 hover:bg-indigo-400 text-white transition-colors">
+        Reset Filters
+      </button>
+    </div>
+
+  </main>
+
+  <!-- =====================================================================
+       FOOTER
+       ===================================================================== -->
+  <footer class="relative z-10 border-t border-white/[0.08] bg-[#08080c]/70 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <p id="footerCopyright">© 2026 YOUR_BRAND • All rights reserved.</p>
+      <p class="font-mono text-slate-500">Edit <span class="text-indigo-300">js/config.js</span> &amp; drop images into <span class="text-indigo-300">assets/thumbnails/</span></p>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       INSPECT SLOT & LUA LOADSTRING MODAL
+       ===================================================================== -->
+  <div id="scriptModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div id="modalBackdrop" class="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"></div>
+
+    <!-- Modal Card -->
+    <div class="relative z-10 w-full max-w-2xl rounded-2xl bg-[#0e0e16]/95 backdrop-blur-2xl border border-white/15 shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden animate-modalIn">
+      <!-- Top Bar -->
+      <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+          <span id="modalStatusBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-400/30">[ STATUS ]</span>
+          <span id="modalVersionBadge" class="px-2 py-0.5 rounded-md text-[11px] font-mono text-slate-400 bg-white/[0.05] border border-white/10">v0.0</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="modalBookmarkBtn" type="button" aria-label="Bookmark slot" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/10 text-slate-300 hover:text-amber-300 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+          </button>
+          <button id="modalCloseBtn" type="button" aria-label="Close modal" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/10 text-slate-300 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 max-h-[82vh] overflow-y-auto space-y-5">
+        <!-- Title & Subtitle -->
+        <div>
+          <h2 id="modalTitle" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight mb-1">[ GAME_NAME_01 ]</h2>
+          <p id="modalSubtitle" class="text-sm text-slate-400">[ Short placeholder description for this script slot ]</p>
+        </div>
+
+        <!-- Metadata Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+            <div class="text-[11px] font-mono uppercase tracking-wider text-slate-500 mb-1.5">Supported Executors</div>
+            <div id="modalExecutors" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+            <div class="text-[11px] font-mono uppercase tracking-wider text-slate-500 mb-1.5">Tags &amp; Status</div>
+            <div id="modalTags" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+
+        <!-- Features List -->
+        <div>
+          <h3 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2.5">Included Features</h3>
+          <ul id="modalFeatures" class="space-y-2 text-sm text-slate-300"></ul>
+        </div>
+
+        <!-- Lua Loadstring Code Box -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Lua Loadstring</span>
+            <span class="text-[11px] font-mono text-slate-500">Click Copy &amp; paste into executor</span>
+          </div>
+          <div class="relative rounded-xl bg-[#07070b] border border-white/10 p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+            <code id="modalLoadstringCode" class="text-indigo-200 whitespace-pre"></code>
+          </div>
+        </div>
+
+        <!-- Primary Action Button -->
+        <div class="pt-1 flex items-center justify-end gap-3">
+          <button id="modalCopyBtn" type="button" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] shadow-[0_0_25px_rgba(99,102,241,0.35)] transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span id="modalCopyBtnText">Copy Script</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TOAST NOTIFICATION
+       ===================================================================== -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-[#12121c]/95 backdrop-blur-xl border border-indigo-400/35 shadow-[0_12px_35px_rgba(0,0,0,0.75)] text-xs sm:text-sm font-medium text-white">
+      <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      <span id="toastMessage">Copied to clipboard!</span>
+    </div>
+  </div>
+
+  <!-- Scripts: Load Config First, Then App Logic -->
+  <script src="./js/config.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
