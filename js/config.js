@@ -55,17 +55,17 @@ const SCRIPT_SLOTS = [
     id: "slot-01",
     slotFileLabel: "slot_01.png",
     thumbnail: "assets/thumbnails/slot_01.png",
-    status: "[ STATUS ]",
-    title: "[ GAME_NAME_01 ]",
-    subtitle: "[ Short placeholder subtitle or script summary ]",
-    tags: ["[ Tag A ]", "[ Tag B ]"],
+    status: "UPDATED",
+    title: "Break and Steal an Egg",
+    subtitle: "[Keyless] Break and Steal an Egg - Instant Steal, auto farm, auto event",
+    tags: ["Keyless", "Instant Steal"],
     filterKeys: ["tag-01", "tag-02"],
-    version: "v0.0",
-    executors: ["[ Executor 01 ]", "[ Executor 02 ]", "[ Executor 03 ]"],
+    version: "v2.34",
+    executors: ["Delta", "Arceus X", "Potassium", "Volt"],
     features: [
-      "[ Placeholder feature bullet 01 ]",
-      "[ Placeholder feature bullet 02 ]",
-      "[ Placeholder feature bullet 03 ]"
+      "Instant Steal",
+      "Auto Event",
+      "Auto Candy"
     ],
     loadstring: 'loadstring(game:HttpGet("https://your-domain.com/scripts/slot_01.lua"))()'
   },
